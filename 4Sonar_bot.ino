@@ -1,3 +1,9 @@
+/*
+4 Sonar
+2 motor
+1 LDR
+8 IR
+*/
 #include<NewPing.h>
 #include<Servo.h>
 #define F_trig 51

@@ -1,3 +1,8 @@
+/*
+LDR is Light Dependent Resistor.
+It's resistance decreases with increasing incident light intensity
+So lower value means its darker place
+*/
 #define ldr A0
 #define led 7
 void setup() {
@@ -6,7 +11,8 @@ void setup() {
   Serial.begin(9600);
 }
 
-void loop() {
+void loop() 
+{
   int x=analogRead(ldr);
   Serial.println(x);
   if(x<=300)
@@ -17,11 +23,6 @@ void loop() {
   else
   {
     digitalWrite(led,LOW);
-
-
   }
   delay(1000);
-
-
-  
 }

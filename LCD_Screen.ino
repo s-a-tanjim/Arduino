@@ -43,7 +43,7 @@ Pins:
   2 -> VCC (+5v)
   3 -> VO (Contrast)  (POT)  (**)
   4 -> RS (Register Select (Data memory))       (Arduino pin -> 2)
-  5 -> R/W (Read / Write)
+  5 -> R/W (Read / Write)  (GND)          
   6 -> E (Enable) (It makes 4 High)             (Arduino pin -> 3)
   7 -> D0   \
   8 -> D1   |

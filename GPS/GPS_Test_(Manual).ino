@@ -8,6 +8,8 @@
 //Lat,long = remain space of 12 digit in lcd display
 #include<LiquidCrystal.h>
 
+LiquidCrystal lcd(2,3,4,5,6,7);
+
 String inputString = ""; // a string to hold incoming data
 boolean stringComplete = false; // whether the string is complete
 
@@ -19,9 +21,6 @@ char Latitude[15] , Longitude[15], Time[15],nORs[3],eORw[3];
 String SignalGGA = "$GPGGA";
 char LatitudeGGA[15] , LongitudeGGA[15], TimeGGA[15],nORsGGA[3],eORwGGA[3],numb_of_satellite[5],altitude_val[10],altitude_unit[5];
 
-
-
-LiquidCrystal lcd(2,3,4,5,6,7);
 
 void setup() {
   Serial.begin(9600);

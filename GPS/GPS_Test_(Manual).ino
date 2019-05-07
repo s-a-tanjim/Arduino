@@ -8,8 +8,6 @@
 //Lat,long = remain space of 12 digit in lcd display
 #include<LiquidCrystal.h>
 
-LiquidCrystal lcd(2,3,4,5,6,7);
-
 String inputString = ""; // a string to hold incoming data
 boolean stringComplete = false; // whether the string is complete
 
@@ -19,8 +17,10 @@ char Latitude[15] , Longitude[15], Time[15],nORs[3],eORw[3];
 
 //For GPGGA
 String SignalGGA = "$GPGGA";
-char LatitudeGGA[15] , LongitudeGGA[15], TimeGGA[15],nORsGGA[3],eORwGGA[3],numb_of_satellite[5],altitude_val[10],altitude_unit[5];
+char numb_of_satellite[5],altitude_val[10],altitude_unit[5];  //Latitude[15] , Longitude[15], Time[15],nORs[3],eORw[3],
 
+
+LiquidCrystal lcd(2,3,4,5,6,7);
 
 void setup() {
   Serial.begin(9600);
@@ -32,221 +32,51 @@ void loop() {
   
     if (stringComplete) {
       
-        Serial.println(inputString);
+        //Serial.println(inputString);
         String BB = inputString.substring(0, 6);
-        Serial.println(BB);
+        //Serial.println(BB);
         /*
         //From GGL
-        if (BB == SignalGLL) {
-            //..................................String Modify.................
+        if (BB == SignalGLL)
+        {
+            int i=7;
+            i=dataPicker(i,Latitude);
+            i=dataPicker(i,nORs);
+            i=dataPicker(i,Longitude);
+            i=dataPicker(i,eORw);
+            i=dataPicker(i,Time);
 
-            int i,j;
-            for(i=7,j=0 ; inputString[i]!=',' && inputString[i]!='\n' && inputString[i]!='\0'; i++,j++)
-            {
-              Latitude[j]=inputString[i];
-            }
-            Latitude[j]='\0';
-            i++;
-
-            for(j=0 ; inputString[i]!=',' && inputString[i]!='\n' && inputString[i]!='\0'; i++,j++)
-            {
-              nORs[j]=inputString[i];
-            }
-            nORs[j]='\0';
-            i++;
-
-            for(j=0 ; inputString[i]!=',' && inputString[i]!='\n' && inputString[i]!='\0'; i++,j++)
-            {
-              Longitude[j]=inputString[i];
-            }
-            Longitude[j]='\0';
-            i++;
-
-            for(j=0 ; inputString[i]!=',' && inputString[i]!='\n' && inputString[i]!='\0'; i++,j++)
-            {
-              eORw[j]=inputString[i];
-            }
-            eORw[j]='\0';
-            i++;
-
-            for(j=0 ; inputString[i]!=',' && inputString[i]!='\n' && inputString[i]!='\0'; i++,j++)
-            {
-              Time[j]=inputString[i];
-            }
-            Time[j]='\0';
-            i++;
-            
-            Serial.println("From GLL: ");
-            Serial.print("Time :  ");
-            if(Time[0]=='\0')
-              Serial.println("NULL");
-             else
-              Serial.println(Time);
-            Serial.print("Latitude :  ");
-            if(Latitude[0]=='\0')
-              Serial.println("NULL");
-            else{
-              Serial.print(Latitude);
-              Serial.print("   ");
-              Serial.println(nORs);
-            }
-            Serial.print("Longitude :  ");
-            if(Longitude[0]=='\0')
-              Serial.println("NULL");
-             else{
-              Serial.print(Longitude);
-              Serial.print("   ");
-              Serial.println(eORw);
-             }
-            
-            lcd.clear();
-            
-            lcd.setCursor(0,0);
-            lcd.print("Lt: ");
-            lcd.setCursor(4,0);
-            if(Latitude[0]=='\0')
-              lcd.print("NULL");
-            else
-              lcd.print(Latitude);
-
-            lcd.setCursor(0,1);
-            lcd.print("Lg: ");
-            lcd.setCursor(4,1);
-            if(Longitude[0]=='\0')
-              lcd.print("NULL");
-            else
-              lcd.print(Longitude);
-            
+            serialPrint("GLL");
+            lcdPrint();
             delay(3000);
-            
-
         }
         */
         //From GGA Value:
-        
         if(BB==SignalGGA)
         {
-            int i,j;
-            for(i=7,j=0 ; inputString[i]!=',' && inputString[i]!='\n' && inputString[i]!='\0'; i++,j++)
-            {
-              TimeGGA[j]=inputString[i];
-            }
-            TimeGGA[j]='\0';
-            i++;
-            
-            for(j=0 ; inputString[i]!=',' && inputString[i]!='\n' && inputString[i]!='\0'; i++,j++)
-            {
-              LatitudeGGA[j]=inputString[i];
-            }
-            LatitudeGGA[j]='\0';
-            i++;
-
-            for(j=0 ; inputString[i]!=',' && inputString[i]!='\n' && inputString[i]!='\0'; i++,j++)
-            {
-              nORsGGA[j]=inputString[i];
-            }
-            nORsGGA[j]='\0';
-            i++;
-
-            for(j=0 ; inputString[i]!=',' && inputString[i]!='\n' && inputString[i]!='\0'; i++,j++)
-            {
-              LongitudeGGA[j]=inputString[i];
-            }
-            LongitudeGGA[j]='\0';
-            i++;
-
-            for(j=0 ; inputString[i]!=',' && inputString[i]!='\n' && inputString[i]!='\0'; i++,j++)
-            {
-              eORwGGA[j]=inputString[i];
-            }
-            eORwGGA[j]='\0';
-            i++;
-
-            for(; inputString[i]!=',' && inputString[i]!='\n' && inputString[i]!='\0'; i++);
-            i++;
-            
-            for(j=0 ; inputString[i]!=',' && inputString[i]!='\n' && inputString[i]!='\0'; i++,j++)
-            {
-              numb_of_satellite[j]=inputString[i];
-            }
-            numb_of_satellite[j]='\0';
-            i++;
-            
+            int i=7;
+            i=dataPicker(i,Time);
+            i=dataPicker(i,Latitude);
+            i=dataPicker(i,nORs);
+            i=dataPicker(i,Longitude);
+            i=dataPicker(i,eORw);
             
             for(; inputString[i]!=',' && inputString[i]!='\n' && inputString[i]!='\0'; i++);
             i++;
             
-            
-            for(j=0 ; inputString[i]!=',' && inputString[i]!='\n' && inputString[i]!='\0'; i++,j++)
-            {
-              altitude_val[j]=inputString[i];
-            }
-            altitude_val[j]='\0';
+            i=dataPicker(i,numb_of_satellite);
+           
+            for(; inputString[i]!=',' && inputString[i]!='\n' && inputString[i]!='\0'; i++);
             i++;
             
-            
-            for(j=0 ; inputString[i]!=',' && inputString[i]!='\n' && inputString[i]!='\0'; i++,j++)
-            {
-              altitude_unit[j]=inputString[i];
-            }
-            altitude_unit[j]='\0';
-            i++;
-            
-            Serial.println("From GGA: ");
-            Serial.print("Time :  ");
-            if(TimeGGA[0]=='\0')
-              Serial.println("NULL");
-             else
-              Serial.println(TimeGGA);
-            Serial.print("Latitude :  ");
-            if(LatitudeGGA[0]=='\0')
-              Serial.println("NULL");
-            else{
-              Serial.print(LatitudeGGA);
-              Serial.print("   ");
-              Serial.println(nORsGGA);
-            }
-            Serial.print("Longitude :  ");
-            if(LongitudeGGA[0]=='\0')
-              Serial.println("NULL");
-             else{
-              Serial.print(LongitudeGGA);
-              Serial.print("   ");
-              Serial.println(eORwGGA);
-             }
-             
-             Serial.print("Number of Satellites :  ");
-             Serial.println(numb_of_satellite);
-             
-             Serial.print("Above mean sea level : ");
-             Serial.print(altitude_val);
-             Serial.print("   ");
-             Serial.println(altitude_unit);
-            
-            lcd.clear();
-            
-            lcd.setCursor(0,0);
-            lcd.print("Lt: ");
-            lcd.setCursor(4,0);
-            if(LatitudeGGA[0]=='\0')
-              lcd.print("NULL");
-            else
-              lcd.print(LatitudeGGA);
-
-            lcd.setCursor(0,1);
-            lcd.print("Lg: ");
-            lcd.setCursor(4,1);
-            if(LongitudeGGA[0]=='\0')
-              lcd.print("NULL");
-            else
-              lcd.print(LongitudeGGA);
-            
+            i=dataPicker(i,altitude_val);
+            i=dataPicker(i,altitude_unit);
+            serialPrint("GGA");
+            lcdPrint();
             delay(3000);
-            
-          
         }
-        
-        else{
+        else
+        {
             lcd.setCursor(15,0);
             lcd.print("B");
         }
@@ -254,12 +84,12 @@ void loop() {
         inputString ="";
         //delay(2300);
     }
-    else{
+    else
+    {
         lcd.setCursor(15,1);
-            lcd.print("I");
+        lcd.print("I");
     }
 }
-
 
 void serialEvent() {
     while (Serial.available()) {
@@ -275,4 +105,113 @@ void serialEvent() {
             stringComplete = true;
         }
     }
+}
+
+void lcdPrint()
+{
+  lcd.clear();
+            
+  lcd.setCursor(0,0);
+  lcd.print("Lt: ");
+  lcd.setCursor(4,0);
+  if(Latitude[0]=='\0')
+    lcd.print("NULL");
+  else
+    lcd.print(Latitude);
+  
+  lcd.setCursor(0,1);
+  lcd.print("Lg: ");
+  lcd.setCursor(4,1);
+  if(Longitude[0]=='\0')
+    lcd.print("NULL");
+  else
+    lcd.print(Longitude);
+}
+
+void serialPrint(String s)
+{
+  if(s=="GGA")  Serial.println("From GGA: ");
+  else Serial.println("From GLL: ");
+  //Time Printing
+  Serial.print("Time :  ");
+  if(Time[0]=='\0')
+    Serial.println("NULL");
+  else
+    Serial.println(Time);
+  //Latitude Printing
+  Serial.print("Latitude :  ");
+  if(Latitude[0]=='\0')
+    Serial.println("NULL");
+  else{
+    Serial.print(Latitude);
+    Serial.print("   ");
+    Serial.println(nORs);
+  }
+  //Longitude Printing
+  Serial.print("Longitude :  ");
+  if(Longitude[0]=='\0')
+    Serial.println("NULL");
+  else{
+    Serial.print(Longitude);
+    Serial.print("   ");
+    Serial.println(eORw);
+  }
+
+  if(s=="GGA")
+  {
+    Serial.print("Number of Satellites :  ");
+    Serial.println(numb_of_satellite);
+                
+    Serial.print("Above mean sea level : ");
+    Serial.print(altitude_val);
+    Serial.print("   ");
+    Serial.println(altitude_unit);
+  }
+}
+
+int dataPicker(int i,char a[])
+{
+  int j;
+  for(j=0 ; inputString[i]!=',' && inputString[i]!='\n' && inputString[i]!='\0'; i++,j++)
+  {
+      a[j]=inputString[i];
+  }
+  a[j]='\0';
+  i++;
+  return i;
+}
+
+long double charToInt(char s[])
+{
+    int i,Count=0;
+    //Checking String
+    if(s[0]=='\0')
+    {
+      return -1;
+    }
+    for(int k=0;s[k]!='\0';k++)
+    {
+        if(s[k]<48 || s[k]>57)
+            Count++;
+    }
+    if(Count>1) return -1;
+    //Checked String
+
+    long double Numb=0;
+    for(i=0;s[i]!='\0' && s[i]!='.';i++)
+    {
+        double temp=s[i]-48;
+        Numb=Numb*10+temp;
+    }
+    if(s[i]=='.')
+    {
+        int x=10;
+        for(i++;s[i]!='\0';i++)
+        {
+            double temp=(double)(s[i]-48)/(double)x;
+            Numb += temp;
+            x*=10;
+        }
+    }
+    return Numb;
 }
